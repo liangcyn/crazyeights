@@ -37,20 +37,49 @@ class Game:
 
 		self.handle_game_results()
 
+	def get_winners(self):
+		num_cards_for_each_player = [len(hand) for player, hand in self.hands.items()]
+		min_num_cards = min(num_cards_for_each_player)
+		winner_list = [self.names_list[i] for i, num_cards in enumerate(num_cards_for_each_player) if num_cards == min_num_cards]
+		return winner_list
+
+	def create_winner_string(self, winner_list):
+		winner_string = ''
+		last_elem_index = len(winner_list) - 1
+
+		for winner in winner_list[:last_elem_index]:
+			winner_string += winner + ', '
+
+		if winner_string:
+			winner_string += 'and '
+
+		winner_string += winner_list[last_elem_index]
+
+		return winner_string
+
+
 	def handle_game_results(self):
+		draw.draw_result_bar()
+		card_actions.print_game_state(self.hands, self.deck, self.pile)
 		# players did not expend all cards into pile
+
 		hands_contain_cards = [hand for player, hand in self.hands.items()]
 
-		if [] not in hands_contain_cards:
+		# if one-player game, if their hand is not empty, they lose.
+		if len(self.hands) <= 1 and self.hands[0] != []:
+			draw.draw_centered('YOU LOSE', '')
 			print('sorry, you did not play all your cards.')
 			print('better luck next time!')
 			exit()
 
-		winner_index = hands_contain_cards.index([])
+		# otherwise, set the winner(s) as the one(s) with the least cards.
+		winner_list = self.get_winners()
 
-		self.print_game_state(self.hands, self.deck, self.pile)
-		print('congratulations, %s! you won the game.' %self.names_list[winner_index])
-		print('play again sometime!')
+		winner_string = self.create_winner_string(winner_list)
+
+		draw.draw_centered(' CONGRATS! ', u'\u2b51')
+		draw.draw_centered('congratulations, %s! you won!' %winner_string, ' ')
+		draw.draw_centered('play again sometime!', ' ')
 		exit()
 		
 
@@ -63,7 +92,10 @@ class Game:
 
 
 	def play_turn(self, player, hand):
-		print('Hi, %s!' %player)
+		os.system('cls' if os.name == 'nt' else 'clear')
+
+		draw.draw_player_header(player)
+
 		last_card_played = self.top_card_on_pile()
 
 		suit_to_match = last_card_played.suit
@@ -84,10 +116,10 @@ class Game:
 
 		if not possible_plays:
 			if not self.deck:
-				print('you have no possible plays. press any key to continue.')
+				print('you have no possible plays. press enter to continue.')
 				ans = input()
 				return False
-			print("you cannot play any of your current cards. press any key to take another card.")
+			print("you cannot play any of your current cards. press enter to take another card.")
 			ans = input()
 			self.take_a_card(player)
 			return self.play_turn(player, hand)
@@ -95,11 +127,11 @@ class Game:
 
 		card_index = self.query_card_choice(player, possible_plays)
 		self.play_card(player, card_index)
-		os.system('cls' if os.name == 'nt' else 'clear')
+
 		return True
 
 	def query_card_choice(self, player, possible_plays):
-		print('Input the index of the card you would like to choose:')
+		print('input the index of the card you would like to choose:')
 
 		card_index = -1
 		ans = input()
@@ -116,10 +148,10 @@ class Game:
 		potential_card = self.hands[player][card_index]
 
 		if potential_card not in possible_plays:
-			print('can\'t play this card! make sure that:')
-			print('- the played card\'s suit matches the top card on the pile')
-			print('- the played card\'s value matches the top card on the pile')
-			print('- the played card is a crazy eight!')
+			print('can\'t play this card! make sure that at least one of the following is true:')
+			print('\t- the played card\'s suit matches the top card on the pile')
+			print('\t- the played card\'s value matches the top card on the pile')
+			print('\t- the played card is a crazy eight!')
 			return self.query_card_choice(player, possible_plays)
 
 		return card_index
@@ -127,7 +159,7 @@ class Game:
 
 	def play_card(self, player, card_index):
 		card_to_play = self.hands[player][card_index]
-		print("CARD: ", card_to_play.suit, card_to_play.value)
+		print('CARD:', card_to_play.value, 'of', card_to_play.suit)
 		self.hands[player].remove(card_to_play)
 		self.add_to_pile(card_to_play)
 

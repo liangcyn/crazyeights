@@ -1,4 +1,5 @@
 from game import Game
+import draw
 import os
 
 def crazy_eights():
@@ -6,8 +7,33 @@ def crazy_eights():
 
 
 def startup_prompt():
-	print('This game can be played with 1-5 players.')
-	print('Enter the number of players in your game session, or any non-integer key to exit.')
+	print()
+	draw.draw_centered('WELCOME TO CRAZY EIGHTS!', '-')
+	print('a quick rundown of the rules:')
+
+	print('\n\nGAMEPLAY:')
+	print('- each player is dealt five cards.')
+
+	print('- players will draw from the remaining deck.')
+	print('- the top card of the deck is turned face up to start the discard pile next to it.')
+
+	print('in order, each player adds to the pile by playing one card,\n such that any of these are true:')
+
+	print('\t- the played card\'s suit matches the top card on the pile')
+	print('\t- the played card\'s value matches the top card on the pile')
+	print('\t- the played card\'s value is an eight')
+
+	print('- a player who cannot match the fulfill any of these rules must\n draw cards from the deck until they can play one.')
+	print('- till the deck is empty, all players must have 5 cards in their hands.')
+	print('- when the draw pile is empty, a player who cannot add to the\n discard pile passes their turn.')
+
+	print('\n\nWIN CONDITIONS:')
+	print('- in a single-player game, the player must play all their cards to win.')
+	print('- in a multiplayer game, the first player to discard all of their cards,\n',
+		'or the players with the lowest amount of cards when there are no possible plays left, wins.')
+	
+	print('\n\nthis game can be played with 1-5 players.')
+	print('enter the number of players in your game session, or any non-integer key to exit.')
 
 	num_players = num_players_prompt()
 
@@ -26,24 +52,24 @@ def num_players_prompt():
 	try:
 		num_players = int(user_input)
 	except ValueError:
-		print("See you later!")
+		print("see you later!")
 		exit()
 
 	player_conditions_fulfilled = num_players >= 1 and num_players <= 5
 
 	if not player_conditions_fulfilled:
-		print('Sorry! We can only have 1-5 players for this game.')
-		print('Enter the number of players in your game session, or any non-number key to exit.')
+		print('sorry! we can only have 1-5 players for this game.')
+		print('enter the number of players in your game session, or any non-number key to exit.')
 		return num_players_prompt()
 
 	return num_players
 
 
 def name_prompt(player_index, names_list):
-	print("Hi, Player %i! Please enter in a unique name." %player_index)
+	print("hi, player %i! please enter in a unique name." %player_index)
 	player_name = input()
 	if player_name in names_list:
-		print("We already have a player named %s. Please try another name." %player_name)
+		print("we already have a player named %s. please try another name." %player_name)
 		name_prompt(player_index, names_list)
 	return player_name
 

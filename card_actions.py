@@ -4,6 +4,7 @@ import random
 
 values = ['ace', '2', '3', '4', '5', '6', '7', '8', '9', '10', 'jack', 'queen', 'king']
 suits = ['clubs', 'diamonds', 'hearts', 'spades']
+
 NUM_INITIAL_CARDS_IN_HAND = 5
 CRAZY_EIGHT = '8'
 
@@ -34,25 +35,18 @@ def create_card_lists(cards):
 
 def print_game_state(hands, deck, pile):
 	for player, hand in hands.items():
-		print('----%s\'s HAND---\n' %player)
+		draw.draw_centered('%s\'s HAND' %player, '-')
 		hand_suits, hand_values = create_card_lists(hand)
 		
 		draw.draw_card(hand_suits, hand_values, draw_index = False)
 
-			# print('\t', card.value, 'of', card.suit)
-
-	print('----CARDS LEFT IN DECK---\n')
+	draw.draw_centered('CARDS LEFT IN DECK', '-')
 	deck_suits, deck_values = create_card_lists(deck)
-
 	draw.draw_card(deck_suits, deck_values, draw_index = False)
-	# for card in deck:
-		# print('\t', card.value, 'of', card.suit)
 
-	print('----CARDS PLAYED IN PILE---\n')
-
+	draw.draw_centered('CARDS PLAYED IN PILE', '-')
 	pile_suits, pile_values = create_card_lists(pile)
-
 	draw.draw_card(pile_suits, pile_values, draw_index = True)
-	# for card in pile:
-		# print('\t', card.value, 'of', card.suit)
+
+	print()
 	
