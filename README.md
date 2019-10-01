@@ -1,25 +1,30 @@
-# crazyeights
-Crazy eights puzzle game.
+# Crazy Eights
+This project is a terminal-run version of the popular children's card game, Crazy Eights.
 
-## Rules (copied and edited from [kidspot] (https://www.kidspot.com.au/things-to-do/activity-articles/how-to-play-crazy-eights/news-story/4b1a3fdda104f68e45bd92a41fcc6297?)):
+## Game Setup
+1. Download this project locally.
+2. run `python3 crazy_eights.py` from your terminal.
 
-1. Each player is dealt seven cards. The remaining cards are placed face down in the center of the table, forming a draw pile. The top card of the draw pile is turned face up to start the discard pile next to it.
+## Rules 
+GAMEPLAY:
+- each player is dealt five cards.
+- players will draw from the remaining deck.
+- the top card of the deck is turned face up to start the discard pile next to it. in order, each player adds to the pile by playing one card, such that any of these are true:
+	- the played card's suit matches the top card on the pile
+	- the played card's value matches the top card on the pile
+	- the played card's value is an eight
+- a player who cannot match the fulfill any of these rules must
+ draw cards from the deck until they can play one.
+- till the deck is empty, all players must have 5 cards in their hands.
+- when the draw pile is empty, a player who cannot add to the
+ discard pile passes their turn.
 
-2. First player adds to the discard pile by playing one card that matches the top card on the discard pile either by suit or by rank (i.e. 6, jack, ace, etc.). A player who cannot match the top card on the discard pile by suit or rank must draw cards until he can play one.
 
-3. When the draw pile is empty, a player who cannot add to the discard pile passes his turn.
+WIN CONDITIONS:
+- in a single-player game, the player must play all their cards to win.
+- in a multiplayer game, the first player to discard all of their cards,
+ or the players with the lowest amount of cards when there are no possible plays left, wins.
 
-4. All eights are wild and can be played on any card during a player's turn.
+- this game can be played with 1-5 players.
 
-5. When a player discards an eight, he chooses which suit is now in play.
-
-6. The next player must play either a card of that suit or another eight.
-
-7. The first player to discard all of his cards wins.
-
-## Structure
-- card objects with the following attributes:
-  - suit (clubs, diamonds, hearts, spades)
-  - value (ace, two, three, ..., queen, king)
-  
-- deck, a stack (for easy access to last element)
+## 
