@@ -40,10 +40,16 @@ class Game:
 	def get_winners(self):
 		num_cards_for_each_player = [len(hand) for player, hand in self.hands.items()]
 		min_num_cards = min(num_cards_for_each_player)
-		winner_list = [self.names_list[i] for i, num_cards in enumerate(num_cards_for_each_player) if num_cards == min_num_cards]
+		winner_list = [self.names_list[i] for i, num_cards in enumerate(num_cards_for_each_player)
+					   if num_cards == min_num_cards]
 		return winner_list
 
 	def create_winner_string(self, winner_list):
+		if len(winner_list) == 1:
+			return winner_list[0]
+		elif len(winner_list) == 2:
+			return '%s and %s' %(winner_list[0], winner_list[1])
+
 		winner_string = ''
 		last_elem_index = len(winner_list) - 1
 
@@ -122,13 +128,16 @@ class Game:
 			print("you cannot play any of your current cards. press enter to take another card.")
 			ans = input()
 			self.take_a_card(player)
-			return self.play_turn(player, hand)
+			return self.play_turn_again(player, hand)
 
 
 		card_index = self.query_card_choice(player, possible_plays)
 		self.play_card(player, card_index)
 
 		return True
+
+	def play_turn_again(self, player, hand):
+		return self.play_turn(player, hand)
 
 	def query_card_choice(self, player, possible_plays):
 		print('input the index of the card you would like to choose:')

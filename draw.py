@@ -25,7 +25,8 @@ NUM_CARDS_DRAWN_PER_ROW = 5
 
 TAB_WIDTH = 4
 
-### CONSTANT PIECES ###
+### CONSTANT PIECES: pieces that are used for multiple draw sessions ###
+
 edge_piece = ' --------- \t'
 center_blank_piece = '|         |\t'
 cards_deck_piece = '|  cards  |\t'
@@ -51,25 +52,31 @@ def draw_player_header(player):
 	print()
 
 def draw_deck_and_pile(suit_of_top_pile_card, value_of_top_pile_card, deck):
-	# sample output:
+	"""
+	Draws pile on the left, number of cards left in the deck on the right.
 
-	# ----PILE---                                         ----DECK---
+	sample output:
 
-	#  ---------                                           ---------	
-	# |        ♠|                                         |         |	
-	# |         |                                         |         |	
-	# |         |                                         |  num    |	
-	# |    A    |                                         |  cards  |	
-	# |         |                                         |  left   |	
-	# |         |                                         |         |	
-	#  ---------                                           ---------    	
-	#  A/spades
+	----PILE---                                         ----DECK---
 
-	# draw pile on the left, number of cards left in the deck on the right.
+	 ---------                                           ---------	
+	|        ♠|                                         |         |	
+	|         |                                         |         |	
+	|         |                                         |  40     |	
+	|    A    |                                         |  cards  |	
+	|         |                                         |  left   |	
+	|         |                                         |         |	
+	 ---------                                           ---------    	
+	 A/spades
+
+	Parameters:
+	suit_of_top_pile_card: string of pile card's suit to draw.
+	value_of_top_pile_card: string of pile card's value to draw.
+	deck: list of cards in deck.
+	"""
 
 	# the spacer is the space between drawing the pile and the deck.
 	# subtract 2 for the existence of the pile and deck.
-
 	WIDTH_BETWEEN_PILE_AND_DECK = NUM_CARDS_DRAWN_PER_ROW - 2
 	card_space = join_into_string([' '] * CARD_WIDTH)
 	spacer = join_into_string([card_space + '\t'] * WIDTH_BETWEEN_PILE_AND_DECK)
@@ -96,6 +103,7 @@ def draw_deck_and_pile(suit_of_top_pile_card, value_of_top_pile_card, deck):
 	print(description_piece)
 	print()
 
+
 def get_value_piece(value):
 	if value == '10':
 		return '|    10   |\t'
@@ -104,6 +112,13 @@ def get_value_piece(value):
 
 
 def get_description_piece(value, suit):
+	"""
+	Returns description of card with padding, e.g. ' A/hearts  '
+
+	Parameters:
+	value: string containing value of card
+	suit: string containing suit of card
+	"""
 	description = '%s/%s' %(VALUE_SYMBOLS[value], suit)
 	total_padding_length = CARD_WIDTH - len(description)
 	padding_left_length = int(total_padding_length // 2)
@@ -123,6 +138,7 @@ def draw_result_bar():
 
 
 def draw_centered(text_in_bar, bar_symbol):
+
 	total_padding_length =  (NUM_CARDS_DRAWN_PER_ROW *
 							 (CARD_WIDTH + TAB_WIDTH))- len(text_in_bar)
 
@@ -137,6 +153,7 @@ def draw_centered(text_in_bar, bar_symbol):
 	padding_right = join_into_string([bar_symbol] * padding_right_length)
 
 	print(padding_left + text_in_bar + padding_right + '\t')
+
 
 def draw_hand_cards(hand_suits, hand_values):
 	draw_centered('HAND', '-')
@@ -209,6 +226,7 @@ def draw_card(suit_list, value_list, draw_index):
 			print(indices)
 		print(card_description_wedge)
 		print('\n\n')
+
 
 def get_indices(i, list_index):
 	return '    [%s]      \t' %str(i + (list_index * NUM_CARDS_DRAWN_PER_ROW) + 1)
