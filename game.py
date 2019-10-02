@@ -26,18 +26,28 @@ class Game:
 		self.play_game()
 
 	def play_game(self):
+		"""
+		Loops through players and calls play_turn while game is active.
+		"""
+
 		# turn over first card on deck
 		self.add_to_pile(self.deck.pop(0))
 
 		while self.game_is_active():
 			for num, (player, hand) in enumerate(self.hands.items()):
 				self.possible_plays_exist[num] = self.play_turn(player, hand)
-				if not self.game_is_active:
+				if not self.game_is_active():
 					break
 
 		self.handle_game_results()
 
 	def get_winners(self):
+		"""
+		Finds winners with the minimum amount of cards in their hands.
+
+		Returns: a list of said winners
+		"""
+
 		num_cards_for_each_player = [len(hand) for player, hand in self.hands.items()]
 		min_num_cards = min(num_cards_for_each_player)
 		winner_list = [self.names_list[i] for i, num_cards in enumerate(num_cards_for_each_player)
@@ -45,8 +55,12 @@ class Game:
 		return winner_list
 
 	def create_winner_string(self, winner_list):
+		"""
+		Creates a string listing the winners, e.g. '1, 2, 4, and 5'
+		"""
 		if len(winner_list) == 1:
 			return winner_list[0]
+
 		elif len(winner_list) == 2:
 			return '%s and %s' %(winner_list[0], winner_list[1])
 
@@ -56,17 +70,18 @@ class Game:
 		for winner in winner_list[:last_elem_index]:
 			winner_string += winner + ', '
 
-		if winner_string:
-			winner_string += 'and '
-
-		winner_string += winner_list[last_elem_index]
+		winner_string += 'and %s' %winner_list[last_elem_index]
 
 		return winner_string
 
 
 	def handle_game_results(self):
+		"""
+		Aggregates results of game session, exits program.
+		"""
+
 		draw.draw_result_bar()
-		card_actions.print_game_state(self.hands, self.deck, self.pile)
+		draw.draw_game_state(self.hands, self.deck, self.pile)
 		# players did not expend all cards into pile
 
 		hands_contain_cards = [hand for player, hand in self.hands.items()]
@@ -90,6 +105,10 @@ class Game:
 		
 
 	def game_is_active(self):
+		"""
+		Checks if there are moves left and none of the players have an empty hand
+		"""
+
 		# make sure that moves can be made by at least one player.
 		moves_are_left = (self.possible_plays_exist != [False] * self.num_players)
 		hands_contain_cards = [hand for player, hand in self.hands.items()]
@@ -98,6 +117,17 @@ class Game:
 
 
 	def play_turn(self, player, hand):
+		"""
+		Checks if the user can play any cards; if yes, prompts user to choose a card.
+		
+		Parameters:
+		player: string name of the current player
+		hand: a list of card objects that the player currently has
+
+		Returns:
+		False if player cannot play any cards, else True if player has played a card
+		"""
+
 		os.system('cls' if os.name == 'nt' else 'clear')
 
 		draw.draw_player_header(player)
@@ -110,13 +140,13 @@ class Game:
 		draw.draw_deck_and_pile(suit_to_match, value_to_match, self.deck)
 
 		hand_suits, hand_values = card_actions.create_card_lists(hand)
-		possible_plays = []
+		possible_plays = set()
 
 		for card in hand:
 			if (card.suit == suit_to_match or
 				card.value == value_to_match or
 				card.value == CRAZY_EIGHT):
-				possible_plays.append(card)
+				possible_plays.add(card)
 
 		draw.draw_hand_cards(hand_suits, hand_values)
 
@@ -140,6 +170,16 @@ class Game:
 		return self.play_turn(player, hand)
 
 	def query_card_choice(self, player, possible_plays):
+		"""
+		Asks player what card index they would like to play.
+
+		Parameters:
+		player: string name of the current player
+		possible_plays: a set of possible cards that can be played
+
+		Returns:
+		int index of the card to play, according to user input
+		"""
 		print('input the index of the card you would like to choose:')
 
 		card_index = -1
@@ -167,6 +207,14 @@ class Game:
 		
 
 	def play_card(self, player, card_index):
+		"""
+		Adds player's card to pile, takes a card if player's hand is < 5 and deck is not empty.
+
+		Parameters:
+		player: string name of the current player
+		card_index: int index of the card to play
+		"""
+		
 		card_to_play = self.hands[player][card_index]
 		print('CARD:', card_to_play.value, 'of', card_to_play.suit)
 		self.hands[player].remove(card_to_play)

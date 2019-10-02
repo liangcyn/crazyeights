@@ -24,6 +24,15 @@ def shuffle_deck(deck):
 	return deck
 
 def create_card_lists(cards):
+	"""
+	Creates two ordered lists from cards of its suits and values.
+
+	Parameters:
+	cards: a list of Card objects.
+
+	Returns:
+	a tuple of a corresponding lists of the cards' suits and values.
+	"""
 	suits = []
 	values = []
 
@@ -32,21 +41,4 @@ def create_card_lists(cards):
 		values.append(card.value)
 
 	return suits, values
-
-def print_game_state(hands, deck, pile):
-	for player, hand in hands.items():
-		draw.draw_centered('%s\'s HAND' %player, '-')
-		hand_suits, hand_values = create_card_lists(hand)
-		
-		draw.draw_card(hand_suits, hand_values, draw_index = False)
-
-	draw.draw_centered('CARDS LEFT IN DECK', '-')
-	deck_suits, deck_values = create_card_lists(deck)
-	draw.draw_card(deck_suits, deck_values, draw_index = False)
-
-	draw.draw_centered('CARDS PLAYED IN PILE', '-')
-	pile_suits, pile_values = create_card_lists(pile)
-	draw.draw_card(pile_suits, pile_values, draw_index = True)
-
-	print()
 	

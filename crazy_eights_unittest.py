@@ -1,12 +1,13 @@
 import unittest
 import unittest.mock
-from unittest.mock import patch, call
+from unittest.mock import patch
 import crazy_eights
 from game import Game
 from card import Card
+import card_actions
 from parameterized import parameterized
 
-class TestNamePrompt(unittest.TestCase):
+class TestCrazyEights(unittest.TestCase):
 
     @patch('builtins.input', return_value='foo')
     def test_name_prompt_single_player(self, mock_input):
@@ -15,6 +16,7 @@ class TestNamePrompt(unittest.TestCase):
     @patch('builtins.input', return_value='bar')
     def test_name_prompt_multi_player(self, mock_input):
         assert crazy_eights.name_prompt(2, ['foo']) == 'bar'
+
 
 class TestGameFunctions(unittest.TestCase):
 
@@ -66,6 +68,28 @@ class TestGameFunctions(unittest.TestCase):
             else:
                 print(self.test_game.play_turn(player, hand))
                 mock_play_turn_again.assert_called_with(player, hand)
+
+
+class TestCardActions(unittest.TestCase):
+
+    def create_deck(self):
+
+        expected_deck = [Card('value_1', 'suit_1'),
+                         Card('value_1', 'suit_2'),
+                         Card('value_1', 'suit_3'),
+                         Card('value_2', 'suit_1'),
+                         Card('value_2', 'suit_2'),
+                         Card('value_2', 'suit_3'),
+                         Card('value_3', 'suit_1'),
+                         Card('value_3', 'suit_2'),
+                         Card('value_3', 'suit_3'),
+                        ]
+
+        with patch.object(card_actions, 'values',
+                          ['value_1', 'value_2', 'value_3']):
+            with patch.object(card_actions, 'suits',
+                              ['suit_1', 'suit_2', 'suit_3']):
+                assert card_actions.create_deck() == expected_deck
 
 
 if __name__ == '__main__':
