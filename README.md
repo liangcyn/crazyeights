@@ -28,9 +28,10 @@ _Description: demo of startup._
 - in a single-player game, the player must play all their cards to win.
 - in a multiplayer game, the first player to discard all of their cards,
  or the players with the lowest amount of cards when there are no possible plays left, wins.
+ 
 ![](demo_win.gif)
 
-_Description: demo of win condition. We see that `bar` has less cards than `foo`, so `bar` has won.
+_Description: demo of win condition. We see that `bar` has less cards than `foo`, so `bar` has won._
 
 - this game can be played with 1-5 players.
 
@@ -52,6 +53,7 @@ In this project, you'll find the following files:
 - `Card`s have both `value` and `suit` attributes.
 
 ### Flow of Gameplay
+
 ![](object_flow.png)
 
 _Description: a simple graphic of `card` flow during a game._
