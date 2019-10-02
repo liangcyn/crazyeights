@@ -102,3 +102,10 @@ I used the Python modules `unittest` and specifically `unittest.mock` because th
 
 ## Tooling
 I used Python because it lends itself easily to creation of classes/objects (as an object-oriented language), because it comes with built in testing modules, and because it's the language I'm most familiar with.
+
+I used `unittest` for isolation testing, as mentioned above.
+
+I used `os` to clear the system screen for a cleaner UI, as well as so that it would be harder for players to look back at gameplay. Unfortunately, terminal games don't lend themselves to ideal UI for keeping plays hidden, but by clearing past plays from the current screen, it would be somewhat harder to cheat.
+
+I used `random` for a pseudorandom shuffling of cards for each game session.
+
