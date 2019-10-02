@@ -1,6 +1,8 @@
-from card import Card
 import draw
 import random
+
+from card import Card
+
 
 values = ['ace', '2', '3', '4', '5', '6', '7', '8', '9', '10', 'jack', 'queen', 'king']
 suits = ['clubs', 'diamonds', 'hearts', 'spades']

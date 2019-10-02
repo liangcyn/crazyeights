@@ -1,11 +1,14 @@
+import crazy_eights
+import card_actions
+
 import unittest
 import unittest.mock
-from unittest.mock import patch
-import crazy_eights
-from game import Game
+
 from card import Card
-import card_actions
+from game import Game
+from unittest.mock import patch
 from parameterized import parameterized
+
 
 class TestCrazyEights(unittest.TestCase):
 

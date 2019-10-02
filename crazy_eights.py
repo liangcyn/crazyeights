@@ -1,6 +1,8 @@
-from game import Game
 import draw
 import os
+
+from game import Game
+
 
 def crazy_eights():
 	startup_prompt()

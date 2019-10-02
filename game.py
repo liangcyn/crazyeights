@@ -1,9 +1,10 @@
 import card_actions
-from card_actions import CRAZY_EIGHT, NUM_INITIAL_CARDS_IN_HAND
-from card import Card, NUMBER_OF_CARDS
 import draw
 import os
-import random
+
+from card_actions import CRAZY_EIGHT, NUM_INITIAL_CARDS_IN_HAND
+from card import Card, NUMBER_OF_CARDS
+
 
 class Game:
 	def __init__(self, names_list):
@@ -214,7 +215,7 @@ class Game:
 		player: string name of the current player
 		card_index: int index of the card to play
 		"""
-		
+
 		card_to_play = self.hands[player][card_index]
 		print('CARD:', card_to_play.value, 'of', card_to_play.suit)
 		self.hands[player].remove(card_to_play)
